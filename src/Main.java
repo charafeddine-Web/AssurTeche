@@ -9,9 +9,9 @@ public class Main {
         Connection conn = db.getConnection();
 
         if(conn !=  null){
-            System.out.println("✅ Connexion réussie !");
+            System.out.println("Connexion réussie !");
         } else {
-            System.out.println("❌ Connexion échouée !");
+            System.out.println("Connexion échouée !");
         }
     }
 }
