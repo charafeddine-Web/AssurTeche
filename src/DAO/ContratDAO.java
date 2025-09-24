@@ -55,7 +55,6 @@ public class ContratDAO {
             e.printStackTrace();
         }
     };
-
     public Optional<Contrat> showContratById(int id ){
 
         String sql="SELECT * FROM Contrat WHERE id = ?";
@@ -82,7 +81,6 @@ public class ContratDAO {
         }
         return Optional.empty();
     }
-
     public boolean deleteContrat(int id){
         String sql= "DELETE FROM Contrat WHERE id = ?";
 
@@ -96,7 +94,6 @@ public class ContratDAO {
         }
         return false;
     };
-
     public List<Contrat> findContratsByClientId(int clientId) {
         List<Contrat> contrats = new ArrayList<>();
         String sql = "SELECT * FROM Contrat WHERE client_id = ?";
