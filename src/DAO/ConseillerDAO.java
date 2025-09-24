@@ -6,6 +6,7 @@ import resources.DBConfig;
 
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ConseillerDAO {
 
@@ -93,12 +94,10 @@ public class ConseillerDAO {
     public List<Client> findClientConseilleById (int conseiller_id){
         List<Client> clients=new ArrayList<>();
 
-        String sql="SELECT cl.* FROM Conseiller c " +
-                "JOIN Client cl ON c.id = cl.conseiller_id "+
-                "WHERE cl.conseiller_id = ?";
+        String sql="SELECT * FROM Client " ;
 
         try(PreparedStatement prs= conn.prepareStatement(sql)){
-            prs.setInt(1,conseiller_id);
+
             try(ResultSet res = prs.executeQuery()){
                 while(res.next()){
                     Client client = new Client(
@@ -114,6 +113,13 @@ public class ConseillerDAO {
         }catch ( SQLException e){
             e.printStackTrace();
         }
-        return clients;
+
+        List<Client> clientFiltre = clients.stream()
+                .filter(c -> c.getConseiller() != null && c.getConseiller().getId() == conseiller_id )
+                .collect(Collectors.toList());
+        clientFiltre.forEach(c-> System.out.println(c.getNom() + " " + c.getPrenom() + " "+c.getEmail()));
+
+        return clientFiltre;
     }
+
 }
