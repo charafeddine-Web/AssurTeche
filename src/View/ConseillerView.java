@@ -1,26 +1,27 @@
 package View;
-import java.util.*;
 
-import model.Client;
-import service.ClientService;
+import service.ConseillerService;
 
-public class ClientView {
-    private final ClientService clientService;
+import java.util.Scanner;
+
+public class ConseillerView {
+    private  final ConseillerService conseillerService;
     private final Scanner scanner;
 
-    public ClientView(){
-        this.clientService = new ClientService();
+    public ConseillerView(){
+        this.conseillerService = new ConseillerService();
         this.scanner = new Scanner(System.in);
     }
 
     public void menu(){
         int choix;
+
         do {
-            System.out.println("\n===== Gestion des Clients =====");
-            System.out.println("1 - Ajouter un client");
-            System.out.println("2 - Afficher tous les clients");
-            System.out.println("3 - Rechercher un client par ID");
-            System.out.println("4 - Supprimer un client");
+            System.out.println("\n===== Gestion des Conseiller =====");
+            System.out.println("1 - Ajouter un Conseiller");
+            System.out.println("2 - Afficher Client D'un Conseiller");
+            System.out.println("3 - Rechercher un Conseiller par ID");
+            System.out.println("4 - Supprimer un Conseiller");
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
 
@@ -29,26 +30,24 @@ public class ClientView {
 
             switch (choix){
                 case 1:
-                    addClient();
+                    addConseiller();
                     break;
                 case 2:
-                    showAllClients();
+                    showClientDunConseiller();
                     break;
                 case 3:
-                    showClientById();
+                    showConseillerById();
                     break;
                 case 4:
-                    deleteClient();
+                    deleteConseiller();
                     break;
                 case 0 : System.out.println("Au revoir");break;
                 default : System.out.println("Option invalide !");break;
             }
-
-        }while(choix !=0);
+        }while (choix !=0);
     }
 
-
-    public void addClient(){
+    public void addConseiller(){
         System.out.println("Nom : ");
         String nom=scanner.nextLine();
 
@@ -60,11 +59,11 @@ public class ClientView {
 
 //        Client client =  new Client(0,nom,prenom,email);
 //          clientService.addClient(client);
-          System.out.println(" Client ajouté avec succès !");
+        System.out.println(" Client ajouté avec succès !");
 
 
     }
-    public void showAllClients(){}
-    public void showClientById(){}
-    public void deleteClient(){}
+    public void showClientDunConseiller(){}
+    public void showConseillerById(){}
+    public void deleteConseiller(){}
 }
