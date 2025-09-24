@@ -43,7 +43,6 @@ public class ClientDAO {
             e.printStackTrace();
         }
     };
-
     public Map<Integer, Client> findClientByNomAndPrenom(String nom, String prenom) {
         Map<Integer, Client> clients = new HashMap<>();
 
@@ -70,7 +69,6 @@ public class ClientDAO {
 
         return clients;
     }
-
     public Optional<Client> findClientById(int id){
         String sql= "Select * from Client where id = ? ";
         try(PreparedStatement prs= conn.prepareStatement(sql);){
@@ -117,6 +115,5 @@ public class ClientDAO {
         }
         return clients;
     };
-
 
 }
