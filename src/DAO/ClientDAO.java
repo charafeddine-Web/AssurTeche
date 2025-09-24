@@ -8,11 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ClientDAO {
+
     private Connection conn;
 
     public ClientDAO(){
@@ -44,31 +43,34 @@ public class ClientDAO {
             e.printStackTrace();
         }
     };
-    public List<Client> findClientByNomAndPrenom(String nom,String prenom){
-        List<Client> clients = new ArrayList<>();
 
-        String sql= "Select * from Client where nom = ? and prenom = ?";
-        try(PreparedStatement prs=conn.prepareStatement(sql)){
-            prs.setString(1,nom);
-            prs.setString(2,prenom);
+    public Map<Integer, Client> findClientByNomAndPrenom(String nom, String prenom) {
+        Map<Integer, Client> clients = new HashMap<>();
 
-            try(ResultSet res= prs.executeQuery();){
-                while (res.next()){
-                    Client client= new Client(
+        String sql = "SELECT * FROM Client WHERE nom = ? AND prenom = ?";
+        try (PreparedStatement prs = conn.prepareStatement(sql)) {
+            prs.setString(1, nom);
+            prs.setString(2, prenom);
+
+            try (ResultSet res = prs.executeQuery()) {
+                while (res.next()) {
+                    Client client = new Client(
                             res.getInt("id"),
                             res.getString("nom"),
                             res.getString("prenom"),
                             res.getString("email"),
                             null
                     );
-                    clients.add(client);
+                    clients.put(client.getId(), client);
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return clients;
-    };
+    }
+
     public Optional<Client> findClientById(int id){
         String sql= "Select * from Client where id = ? ";
         try(PreparedStatement prs= conn.prepareStatement(sql);){
@@ -92,18 +94,29 @@ public class ClientDAO {
 
         return Optional.empty();
     };
-    public void ShowListClientParConseiller(int conseiller_id){
 
+    public List<Client> ShowListClientParConseiller(int conseiller_id){
+        List<Client> clients = new ArrayList<>();
         String sql="Select * from Client where conseiller_id = ?";
         try(PreparedStatement prs=conn.prepareStatement(sql)){
             prs.setInt(1,conseiller_id);
             ResultSet rs=prs.executeQuery();
             while (rs.next()) {
-                System.out.println("Client: " + rs.getString("nom") + " " + rs.getString("prenom"));
+                Client client = new Client(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        null
+                );
+                clients.add(client);
+
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return clients;
     };
+
 
 }

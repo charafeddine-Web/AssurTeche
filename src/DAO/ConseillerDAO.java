@@ -5,9 +5,7 @@ import model.Conseiller;
 import resources.DBConfig;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ConseillerDAO {
 
@@ -49,8 +47,8 @@ public class ConseillerDAO {
         }
         return false;
     }
-    public List<Conseiller> showAllConseiller(){
-        List<Conseiller>  conseillers= new ArrayList<>();
+    public Map<Integer,Conseiller> showAllConseiller(){
+        Map<Integer,Conseiller>  conseillers= new HashMap<>();
 
         String sql="SELECT * FROM Conseiller ";
         try(PreparedStatement prs=conn.prepareStatement(sql);ResultSet rs= prs.executeQuery();
@@ -62,7 +60,7 @@ public class ConseillerDAO {
                         rs.getString("prenom"),
                         rs.getString("email")
                 );
-                conseillers.add(conseiller);
+                conseillers.put(conseiller.getId(),conseiller);
             }
         }catch (SQLException e){
             e.printStackTrace();
