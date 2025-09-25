@@ -1,5 +1,6 @@
 package View;
 
+import model.Conseiller;
 import service.ConseillerService;
 
 import java.util.Scanner;
@@ -57,12 +58,12 @@ public class ConseillerView {
         System.out.println("Email : ");
         String email = scanner.nextLine();
 
-//        Client client =  new Client(0,nom,prenom,email);
-//          clientService.addClient(client);
-        System.out.println(" Client ajouté avec succès !");
+        Conseiller conseiller =  new Conseiller(0,nom,prenom,email);
+        conseillerService.addConseiller(conseiller);
 
-
+        System.out.println(" Conseiller ajouté avec succès !");
     }
+
     public void showClientDunConseiller(){}
     public void showConseillerById(){}
     public void deleteConseiller(){}

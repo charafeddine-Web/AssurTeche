@@ -1,17 +1,12 @@
+import View.UI;
 import  resources.DBConfig;
-
+import java.util.*;
 import java.sql.Connection;
 
 
 public class Main {
     public static void main(String[] args) {
-        DBConfig db=DBConfig.getInstance();
-        Connection conn = db.getConnection();
-
-        if(conn !=  null){
-            System.out.println("Connexion réussie !");
-        } else {
-            System.out.println("Connexion échouée !");
-        }
+        UI ui=new UI();
+        ui.start();
     }
 }
