@@ -1,6 +1,7 @@
 package DAO;
 
 import model.Client;
+import model.Conseiller;
 import resources.DBConfig;
 
 import java.sql.Connection;
@@ -76,12 +77,14 @@ public class ClientDAO {
 
             try(ResultSet res=prs.executeQuery();){
                 if(res.next()){
+                    int conseillerId = res.getInt("conseiller_id");
+                    Optional<Conseiller> conseillerOpt = new ConseillerDAO().findConseillerById(conseillerId);
                     Client client =  new Client(
                             res.getInt("id"),
                             res.getString("nom"),
                             res.getString("prenom"),
                             res.getString("email"),
-                            null
+                            conseillerOpt.orElse(null)
                     );
                     return Optional.of(client);
                 }

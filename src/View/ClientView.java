@@ -124,7 +124,26 @@ public class ClientView {
 
     }
     public void showClientById(){
+        System.out.println("Entre le ID de Client :");
+        int idClient=scanner.nextInt();
+        scanner.nextLine();
 
+        Optional<Client> clientOpt = clientService.findClientById(idClient);
+
+        if (!clientOpt.isPresent()) {
+            System.out.println("Client introuvable !");
+            return;
+        }
+        Client client = clientOpt.get();
+        System.out.println("Client trouvé : ");
+        System.out.println("ID : " + client.getId() +
+                " | Nom : " + client.getNom() +
+                " | Prénom : " + client.getPrenom() +
+                " | Email : " + client.getEmail() +
+                " | Conseiller : " +
+                (client.getConseiller() != null
+                        ? client.getConseiller().getNom() + " " + client.getConseiller().getPrenom()
+                        : "Aucun conseiller"));
     }
 
 }
