@@ -23,11 +23,11 @@ public class ClientDAO {
         String sql="INSERT INTO Client(nom,prenom,email,conseiller_id) VALUES (?,?,?,?)";
         try(PreparedStatement prs=conn.prepareStatement(sql))
         {
-            prs.setInt(1,client.getId());
-            prs.setString(2,client.getNom());
-            prs.setString(3,client.getPrenom());
-            prs.setString(4,client.getEmail());
-            prs.setInt(5,client.getConseiller().getId());
+//            prs.setInt(1,client.getId());
+            prs.setString(1,client.getNom());
+            prs.setString(2,client.getPrenom());
+            prs.setString(3,client.getEmail());
+            prs.setInt(4,client.getConseiller().getId());
             prs.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();

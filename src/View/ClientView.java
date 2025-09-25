@@ -57,22 +57,33 @@ public class ClientView {
         ConseillerService conseillerSer = new  ConseillerService();
 
         System.out.println("Nom : ");
-        String nom=scanner.nextLine();
+        String nom=scanner.nextLine().trim();
+        if (nom.isEmpty() || !nom.matches("[a-zA-Z]+")) {
+            System.out.println(" Nom invalide ! (Seulement lettres et pas vide)");
+            return;
+        }
 
         System.out.println("Prenom : ");
-        String  prenom= scanner.nextLine();
+        String  prenom= scanner.nextLine().trim();
+        if (prenom.isEmpty() || !prenom.matches("[a-zA-Z]+")) {
+            System.out.println("Prénom invalide ! (Seulement lettres et pas vide)");
+            return;
+        }
 
         System.out.println("Email : ");
-        String email = scanner.nextLine();
+        String email = scanner.nextLine().trim();
+        if (email.isEmpty() || !email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            System.out.println("Email invalide !");
+            return;
+        }
 
+        System.out.println("\nListe des conseillers disponibles :");
         Map<Integer,Conseiller> conseillers =conseillerSer.showAllConseiller();
 
         if(conseillers.values().isEmpty()){
             System.out.println(" Aucun conseiller disponible !");
             return;
         }
-        System.out.println("\nListe des conseillers disponibles :");
-        conseillers.values().forEach(c-> System.out.println("ID: " + c.getId() + " | " + c.getNom() + " " + c.getPrenom()));
 
         System.out.print("Entrez l'ID du conseiller pour ce client : ");
         int conseillerid=scanner.nextInt();
@@ -94,6 +105,26 @@ public class ClientView {
     public void showAllClients(){
         clientService.showAllClient();
     }
-    public void showClientById(){}
-    public void deleteClient(){}
+    public void deleteClient(){
+
+        System.out.println("Entre le ID de Client :");
+        int idClient=scanner.nextInt();
+        scanner.nextLine();
+        Optional<Client> clientServicetrv= clientService.findClientById(idClient);
+
+        if(!clientServicetrv.isPresent()){
+            System.out.println("Client introuvable ! ");
+            return;
+        }
+
+        Client client=clientServicetrv.get();
+        clientService.deleteClient(client.getId());
+
+        System.out.println("Conseiller supprimé avec succès !");
+
+    }
+    public void showClientById(){
+
+    }
+
 }

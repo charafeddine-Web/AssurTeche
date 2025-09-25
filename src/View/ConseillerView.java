@@ -61,12 +61,22 @@ public class ConseillerView {
     public void addConseiller(){
         System.out.println("Nom : ");
         String nom=scanner.nextLine();
-
+        if (nom.isEmpty() || !nom.matches("[a-zA-Z]+")) {
+            System.out.println(" Nom invalide ! (Seulement lettres et pas vide)");
+            return;
+        }
         System.out.println("Prenom : ");
         String  prenom= scanner.nextLine();
-
+        if (prenom.isEmpty() || !prenom.matches("[a-zA-Z]+")) {
+            System.out.println(" Prenom invalide ! (Seulement lettres et pas vide)");
+            return;
+        }
         System.out.println("Email : ");
         String email = scanner.nextLine();
+        if (email.isEmpty() || !email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            System.out.println("Email invalide !");
+            return;
+        }
 
         Conseiller conseiller =  new Conseiller(0,nom,prenom,email);
         conseillerService.addConseiller(conseiller);

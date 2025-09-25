@@ -47,7 +47,7 @@ public class ClientService {
     public Map<Integer,Client> showAllClient(){
         Map<Integer,Client> clientMap= clientDAO.showAllClient();
         clientMap.values().stream()
-                .map(c-> c.getNom() +" "+ c.getPrenom() +" " + c.getEmail())
+                .map(c-> c.getId() +"- "+ c.getNom() +" "+ c.getPrenom() +" " + c.getEmail())
                 .forEach(System.out::println);
         return  clientMap;
     }
