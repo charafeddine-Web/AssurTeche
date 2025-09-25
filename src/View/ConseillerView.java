@@ -1,8 +1,11 @@
 package View;
 
+import model.Client;
 import model.Conseiller;
 import service.ConseillerService;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ConseillerView {
@@ -73,7 +76,61 @@ public class ConseillerView {
     public void showAllConseiller(){
         conseillerService.showAllConseiller();
     };
-    public void showClientDunConseiller(){}
-    public void showConseillerById(){}
-    public void deleteConseiller(){}
+    public void showConseillerById(){
+        System.out.println("Entre le ID de Conseiller : ");
+        int idConseiller = scanner.nextInt();
+        scanner.nextLine();
+        Optional<Conseiller> conseillerServicetrouver = conseillerService.findConseillerById(idConseiller);
+        if(!conseillerServicetrouver.isPresent()){
+            System.out.println("Conseiller introuvable ! ");
+            return;
+        }
+        Conseiller conseiller=conseillerServicetrouver.get();
+    }
+    public void deleteConseiller(){
+        System.out.println("Entre le ID qui tu veux Supprimer : ");
+        int idConseiller = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Conseiller> conseillerServicetrouver = conseillerService.findConseillerById(idConseiller);
+
+        if(!conseillerServicetrouver.isPresent()){
+            System.out.println("Conseiller introuvable ! ");
+            return;
+        }
+        Conseiller conseiller=conseillerServicetrouver.get();
+        conseillerService.deleteConseiller(conseiller.getId());
+
+        System.out.println("Conseiller supprimé avec succès !");
+
+
+    }
+    public void showClientDunConseiller(){
+        System.out.println("Entre le ID de Conseiller : ");
+        int idConseiller = scanner.nextInt();
+        scanner.nextLine();
+
+        Optional<Conseiller> conseillerServicetrouver = conseillerService.findConseillerById(idConseiller);
+
+        if(!conseillerServicetrouver.isPresent()){
+            System.out.println("Conseiller introuvable ! ");
+            return;
+        }
+        Conseiller conseiller=conseillerServicetrouver.get();
+
+        List<Client> clients = conseillerService.findClientConseilleById(conseiller.getId());
+
+        if (clients.isEmpty()) {
+            System.out.println("Aucun client associé à ce conseiller.");
+        } else {
+            System.out.println("\nListe des clients du conseiller " + conseiller.getNom() + " " + conseiller.getPrenom() + " :");
+            clients.forEach(c ->
+                    System.out.println("ID: " + c.getId() + " | " + c.getNom() + " " + c.getPrenom() + " | " + c.getEmail())
+            );
+        }
+
+
+
+    }
+
 }
