@@ -3,9 +3,11 @@ package service;
 import DAO.ClientDAO;
 import model.Client;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ClientService {
 
@@ -18,38 +20,29 @@ public class ClientService {
     public void addClient(Client client){
         clientDAO.AddClient(client);
     }
-
     public void deleteClient(int id){
         clientDAO.DeleteClient(id);
     }
-
     public Optional<Client> findClientById(int id){
         return clientDAO.findClientById(id);
     };
-
-    public Map<Integer,Client> findClientByNomAndPrenom(String nom,String prenom){
-        Map<Integer,Client> clients= clientDAO.findClientByNomAndPrenom(nom,prenom);
-        clients.values().stream()
-                .map(c-> c.getNom() + " " + c.getPrenom())
-                .forEach(System.out::println);
-
-        return clients;
-    }
-
-    public void showListClientByConseiller(int conseiller_id){
+    public List<Client> showListClientByConseiller(int conseiller_id){
         List<Client> clients= clientDAO.ShowListClientParConseiller(conseiller_id);
 
         clients.stream()
                 .map(c-> c.getNom() +" "+ c.getPrenom())
                 .forEach(System.out::println);
+        return clients;
+    }
+    public List<Client> findClientsByNomPrenom(String nomRecherche) {
+    return showAllClient().values().stream()
+            .filter(c -> c.getNom().equalsIgnoreCase(nomRecherche))
+            .sorted(Comparator.comparing(Client::getNom))
+            .collect(Collectors.toList());
+}
+    public Map<Integer, Client> showAllClient() {
+        return clientDAO.showAllClient();
     }
 
-    public Map<Integer,Client> showAllClient(){
-        Map<Integer,Client> clientMap= clientDAO.showAllClient();
-        clientMap.values().stream()
-                .map(c-> c.getId() +"- "+ c.getNom() +" "+ c.getPrenom() +" " + c.getEmail())
-                .forEach(System.out::println);
-        return  clientMap;
-    }
 
 }

@@ -22,8 +22,10 @@ public class ClientView {
             System.out.println("1 - Ajouter un client");
             System.out.println("2 - Afficher tous les clients");
             System.out.println("3 - Rechercher un client par ID");
-            System.out.println("4 - Supprimer un client");
-            System.out.println("5 - Return Au Menu Prancipal" );
+            System.out.println("4 - Rechercher un client par Nom trier ");
+            System.out.println("5 - Afficher Clients d'un Conseiller ");
+            System.out.println("6 - Supprimer un client");
+            System.out.println("7 - Return Au Menu Prancipal" );
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
 
@@ -41,9 +43,15 @@ public class ClientView {
                     showClientById();
                     break;
                 case 4:
-                    deleteClient();
+                    showClientByNomAndPrenom();
                     break;
                 case 5:
+                    afficherClientsParConseiller();
+                    break;
+                case 6:
+                    deleteClient();
+                    break;
+                case 7:
                     return;
                 case 0 : System.out.println("Au revoir");break;
                 default : System.out.println("Option invalide !");break;
@@ -102,10 +110,19 @@ public class ClientView {
         clientService.addClient(client);
           System.out.println(" Client ajouté avec succès !");
     }
-    public void showAllClients(){
-        clientService.showAllClient();
-    }
-    public void deleteClient(){
+    public void showAllClients() {
+        Map<Integer, Client> clients = clientService.showAllClient();
+
+        if (clients.isEmpty()) {
+            System.out.println("Aucun client trouvé !");
+            return;
+        }
+
+        System.out.println("\n--- Liste des Clients ---");
+        clients.values().forEach(c -> System.out.println(
+                c.getId() + " - " + c.getNom() + " " + c.getPrenom() + " | " + c.getEmail()
+        ));
+    }    public void deleteClient(){
 
         System.out.println("Entre le ID de Client :");
         int idClient=scanner.nextInt();
@@ -145,5 +162,45 @@ public class ClientView {
                         ? client.getConseiller().getNom() + " " + client.getConseiller().getPrenom()
                         : "Aucun conseiller"));
     }
+    public void showClientByNomAndPrenom() {
+        System.out.println("Entrez le nom du client : ");
+        String nom = scanner.nextLine().trim();
+
+        List<Client> clientsFiltres = clientService.findClientsByNomPrenom(nom);
+
+        if (clientsFiltres.isEmpty()) {
+            System.out.println("Aucun client trouvé avec le nom : " + nom );
+            return;
+        }
+
+        System.out.println("\n--- Clients trouvés ---");
+        clientsFiltres.forEach(c -> System.out.println(
+                "ID : " + c.getId() +
+                        " | Nom : " + c.getNom() +
+                        " | Prénom : " + c.getPrenom() +
+                        " | Email : " + c.getEmail() +
+                        " | Conseiller : " +
+                        (c.getConseiller() != null
+                                ? c.getConseiller().getNom() + " " + c.getConseiller().getPrenom()
+                                : "Aucun conseiller")
+        ));
+    }
+    public void afficherClientsParConseiller() {
+        System.out.println("Entre le ID de Conseiller :");
+        int conseillerId=scanner.nextInt();
+        scanner.nextLine();
+
+        List<Client> clients = clientService.showListClientByConseiller(conseillerId);
+
+        if (clients.isEmpty()) {
+            System.out.println("Aucun client trouvé pour ce conseiller.");
+        } else {
+            System.out.println("Liste des clients pour le conseiller " + conseillerId + " :");
+            clients.forEach(c ->
+                    System.out.println(c.getId() + " - " + c.getNom() + " " + c.getPrenom() + " | " + c.getEmail())
+            );
+        }
+    }
+
 
 }

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClientDAO {
 
@@ -44,32 +45,6 @@ public class ClientDAO {
             e.printStackTrace();
         }
     };
-    public Map<Integer, Client> findClientByNomAndPrenom(String nom, String prenom) {
-        Map<Integer, Client> clients = new HashMap<>();
-
-        String sql = "SELECT * FROM Client WHERE nom = ? AND prenom = ?";
-        try (PreparedStatement prs = conn.prepareStatement(sql)) {
-            prs.setString(1, nom);
-            prs.setString(2, prenom);
-
-            try (ResultSet res = prs.executeQuery()) {
-                while (res.next()) {
-                    Client client = new Client(
-                            res.getInt("id"),
-                            res.getString("nom"),
-                            res.getString("prenom"),
-                            res.getString("email"),
-                            null
-                    );
-                    clients.put(client.getId(), client);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return clients;
-    }
     public Optional<Client> findClientById(int id){
         String sql= "Select * from Client where id = ? ";
         try(PreparedStatement prs= conn.prepareStatement(sql);){
@@ -96,28 +71,12 @@ public class ClientDAO {
         return Optional.empty();
     };
 
-    public List<Client> ShowListClientParConseiller(int conseiller_id){
-        List<Client> clients = new ArrayList<>();
-        String sql="Select * from Client where conseiller_id = ?";
-        try(PreparedStatement prs=conn.prepareStatement(sql)){
-            prs.setInt(1,conseiller_id);
-            ResultSet rs=prs.executeQuery();
-            while (rs.next()) {
-                Client client = new Client(
-                        rs.getInt("id"),
-                        rs.getString("nom"),
-                        rs.getString("prenom"),
-                        rs.getString("email"),
-                        null
-                );
-                clients.add(client);
 
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return clients;
-    };
+    public List<Client> ShowListClientParConseiller(int conseillerId) {
+        return showAllClient().values().stream()
+                .filter(c -> c.getConseiller() != null && c.getConseiller().getId() == conseillerId)
+                .collect(Collectors.toList());
+    }
 
     public Map<Integer,Client> showAllClient(){
         Map<Integer,Client> clientMap= new HashMap<>();
@@ -138,6 +97,42 @@ public class ClientDAO {
         }
         return clientMap;
     }
+
+
+//    public Map<Integer, Client> findClientByNomAndPrenom(String nom, String prenom) {
+//        Map<Integer, Client> clients = new HashMap<>();
+//
+//        String sql = "SELECT * FROM Client WHERE nom = ? AND prenom = ?";
+//        try (PreparedStatement prs = conn.prepareStatement(sql)) {
+//            prs.setString(1, nom);
+//            prs.setString(2, prenom);
+//
+//            try (ResultSet res = prs.executeQuery()) {
+//                while (res.next()) {
+//                    Client client = new Client(
+//                            res.getInt("id"),
+//                            res.getString("nom"),
+//                            res.getString("prenom"),
+//                            res.getString("email"),
+//                            null
+//                    );
+//                    clients.put(client.getId(), client);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return clients;
+//    }
+
+//    public List<Client> findClientsByNomPrenom(String nomRecherche, String prenomRecherche) {
+//        return showAllClient().values().stream()
+//                .filter(c -> c.getNom().equalsIgnoreCase(nomRecherche) &&
+//                        c.getPrenom().equalsIgnoreCase(prenomRecherche))
+//                .sorted(Comparator.comparing(Client::getNom)) // tri par nom
+//                .collect(Collectors.toList());
+//    }
 
 
 }
