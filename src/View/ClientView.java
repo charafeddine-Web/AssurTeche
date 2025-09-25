@@ -88,11 +88,11 @@ public class ClientView {
         Conseiller conseiller = conseilleropt.get();
 
         Client client =  new Client(0,nom,prenom,email,conseiller);
-       clientService.addClient(client);
+        clientService.addClient(client);
           System.out.println(" Client ajouté avec succès !");
     }
     public void showAllClients(){
-
+        clientService.showAllClient();
     }
     public void showClientById(){}
     public void deleteClient(){}

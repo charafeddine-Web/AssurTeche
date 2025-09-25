@@ -44,4 +44,12 @@ public class ClientService {
                 .forEach(System.out::println);
     }
 
+    public Map<Integer,Client> showAllClient(){
+        Map<Integer,Client> clientMap= clientDAO.showAllClient();
+        clientMap.values().stream()
+                .map(c-> c.getNom() +" "+ c.getPrenom() +" " + c.getEmail())
+                .forEach(System.out::println);
+        return  clientMap;
+    }
+
 }

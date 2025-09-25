@@ -116,4 +116,25 @@ public class ClientDAO {
         return clients;
     };
 
+    public Map<Integer,Client> showAllClient(){
+        Map<Integer,Client> clientMap= new HashMap<>();
+        String sql="SELECT * FROM Client ";
+        try(PreparedStatement ps=conn.prepareStatement(sql);ResultSet rs= ps.executeQuery();){
+            while(rs.next()){
+                Client client =  new Client(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        null
+                );
+                clientMap.put(client.getId(),client);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientMap;
+    }
+
+
 }

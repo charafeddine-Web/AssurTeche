@@ -26,7 +26,7 @@ public class ConseillerService {
     public Map<Integer,Conseiller> showAllConseiller(){
         Map<Integer,Conseiller> conseillers = conseillerDAO.showAllConseiller();
         conseillers.values().stream()
-                .map(co -> co.getNom() + " "+ co.getPrenom()+" "+co.getEmail())
+                .map(co -> "- " + co.getNom() + " "+ co.getPrenom()+" "+co.getEmail())
                 .forEach(System.out::println);
         return  conseillers;
     }
