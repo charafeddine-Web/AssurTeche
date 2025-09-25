@@ -23,6 +23,7 @@ public class ConseillerView {
             System.out.println("2 - Afficher Client D'un Conseiller");
             System.out.println("3 - Rechercher un Conseiller par ID");
             System.out.println("4 - Supprimer un Conseiller");
+            System.out.println("5 - Return Au Menu Prancipal ");
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
 
@@ -42,6 +43,8 @@ public class ConseillerView {
                 case 4:
                     deleteConseiller();
                     break;
+                case 5:
+                    return;
                 case 0 : System.out.println("Au revoir");break;
                 default : System.out.println("Option invalide !");break;
             }

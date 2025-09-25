@@ -18,7 +18,7 @@ public class ConseillerDAO {
 
     public void addConseiller(Conseiller conseiller){
 
-        String sql="INSERT INTO Conseiller(nom,prenom,email) VALUES(?,?,?)";
+        String sql="INSERT INTO conseiller (nom,prenom,email) VALUES(?,?,?)";
         try(PreparedStatement prs= conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
             prs.setString(1, conseiller.getNom());
