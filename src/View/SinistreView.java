@@ -31,7 +31,7 @@ public class SinistreView {
             System.out.println("6 - Afficher sinistres triés par montant (desc)");
             System.out.println("7 - Afficher sinistres avant une date donnée");
             System.out.println("8 - Afficher sinistres supérieurs à un montant");
-            System.out.println("9 - Calcul les couts totauxr");
+            System.out.println("9 - Calculer le coût total des sinistres d'un client");
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
 
