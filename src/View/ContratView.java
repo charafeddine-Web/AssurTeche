@@ -96,15 +96,23 @@ public class ContratView {
             }
         }
 
+        if (dateDebut.isAfter(dateFin)) {
+            System.out.println("Date invalide ! La date de début est après la date de fin.");
+            return;
+        }
+
         ClientService clientService = new ClientService();
         Map<Integer, Client> clients = clientService.showAllClient();
+
 
         if (clients.isEmpty()) {
             System.out.println("Aucun client disponible !");
             return;
         }
-
         System.out.println("=== List Clients :");
+        clients.values().forEach(c ->
+                System.out.println(c.getId() + " - " + c.getNom() + " " + c.getPrenom()+ " | "+c.getEmail() )
+        );
 
         System.out.println("Choisissez l’ID du client pour ce contrat : ");
         int clientId = scanner.nextInt();
@@ -119,6 +127,9 @@ public class ContratView {
 
         Contrat contrat =  new Contrat(0,typeContratchoix,dateDebut,dateFin,client);
         contratService.addContrat(contrat);
+
+        System.out.println(" Client ajouté avec succès !");
+
     };
 
     public void deleteContrat(){
@@ -158,7 +169,8 @@ public class ContratView {
             System.out.println("Client : " + contrat.getClient().getNom() + " " + contrat.getClient().getPrenom());
         } else {
             System.out.println("Client : Aucun");
-        }    };
+        }
+    };
 
     public void findContratByIdClient(){
 

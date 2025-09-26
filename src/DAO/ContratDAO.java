@@ -6,6 +6,8 @@ import model.Client;
 import model.Contrat;
 import resources.DBConfig;
 import Enum.TypeContrat;
+import service.ClientService;
+
 import javax.swing.text.html.Option;
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class ContratDAO {
     public void addContrat(Contrat contrat){
         String sql = "INSERT INTO Contrat (typeContrat, dateDebut, dateFin, client_id) VALUES (?, ?, ?, ?)";
 
-        try(PreparedStatement ps=conn.prepareStatement(sql)) {
+        try(PreparedStatement ps=conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, contrat.getTypeContrat() != null ? contrat.getTypeContrat().name() : null);
 
             if (contrat.getDateDebut() != null) {
@@ -65,12 +67,17 @@ public class ContratDAO {
 
             try(ResultSet res= ps.executeQuery()){
                 if(res.next()){
+                    Client client=null;
+                    int clientId= res.getInt("client_id");
+                    if (clientId > 0) {
+                        client = new ClientService().findClientById(clientId).orElse(null);
+                    }
                     Contrat contrat = new Contrat(
                             res.getInt("id"),
                             TypeContrat.valueOf(res.getString("typeContrat")),
                             res.getDate("dateDebut").toLocalDate(),
                             res.getDate("dateFin").toLocalDate(),
-                            null
+                            client
                     );
                     return Optional.of(contrat);
                 };
