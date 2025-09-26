@@ -134,5 +134,39 @@ public class ContratDAO {
         return contrats;
     }
 
+    public List<Contrat> showAllContrat() {
+        List<Contrat> contratList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Contrat";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Client client = null;
+                int clientId = rs.getInt("client_id");
+                if (clientId > 0) {
+                    client = new ClientService().findClientById(clientId).orElse(null);
+                }
+
+                Contrat contrat = new Contrat(
+                        rs.getInt("id"),
+                        TypeContrat.valueOf(rs.getString("typeContrat")),
+                        rs.getDate("dateDebut").toLocalDate(),
+                        rs.getDate("dateFin").toLocalDate(),
+                        client
+                );
+
+                contratList.add(contrat);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return contratList;
+    }
+
 
 }

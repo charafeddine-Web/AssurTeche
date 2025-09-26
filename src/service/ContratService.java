@@ -26,4 +26,5 @@ public class ContratService {
         return contratDAO.findContratsByClientId(clientid);
     }
 
+    public List<Contrat> showAllContrat(){return contratDAO.showAllContrat();};
 }

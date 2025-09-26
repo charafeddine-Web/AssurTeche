@@ -23,7 +23,7 @@ public class ContratView {
         int choix;
 
         do {
-            System.out.println("\n===== Gestion des Contrat =====");
+            System.out.println("\n===== Gestion des Contrats =====");
             System.out.println("1 - Ajouter un Contrat");
             System.out.println("2 - Afficher un Contrat par ID");
             System.out.println("3 - Rechercher un Contrat par ID Client ");

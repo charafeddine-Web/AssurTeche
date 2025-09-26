@@ -1,12 +1,15 @@
 package DAO;
 
+import model.Contrat;
 import model.Sinistre;
 import resources.DBConfig;
+import Enum.TypeSinistre;
+import java.sql.*;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.time.LocalDate;
 import  java.util.*;
-import java.sql.Connection;
+import java.util.stream.Collectors;
+
 import model.Sinistre;
 
 public class SinistreDAO {
@@ -51,11 +54,70 @@ public class SinistreDAO {
         return false;
     };
 
-//    public void calculCoutsTotaux(){};
-//    public Map<Integer,Sinistre> findSinistreById(){};
-//    public Map<Integer,Sinistre> showSinistresByContratId(){};
-//    public List<Sinistre> showSinistreTreeByMontant(){};
-//    public List<Sinistre> showSinistreByClientId(){};
+    public List<Sinistre> showAllSinistres() {
+        List<Sinistre> sinistres = new ArrayList<>();
+        String sql = "SELECT * FROM Sinistre";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Sinistre sinistre = new Sinistre();
+                sinistre.setId(rs.getInt("id"));
+                sinistre.setTypeSinistre(TypeSinistre.valueOf(rs.getString("typeSinistre")));
+                sinistre.setDate(rs.getDate("date").toLocalDate());
+                sinistre.setCout(rs.getDouble("cout"));
+                sinistre.setDescription(rs.getString("description"));
+
+                Contrat contrat = new Contrat();
+                contrat.setId(rs.getInt("contrat_id"));
+                sinistre.setContrat(contrat);
+
+                sinistres.add(sinistre);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sinistres;
+    }
+
+
+
+    public Optional<Sinistre> findSinistreById(int id) {
+        return showAllSinistres().stream()
+                .filter(s -> s.getId() == id)
+                .findFirst();
+    }
+
+    public List<Sinistre> showSinistresByContratId(int contratId) {
+        return showAllSinistres().stream()
+                .filter(s -> s.getContrat() != null && s.getContrat().getId() == contratId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Sinistre> showSinistreTreeByMontant() {
+        return showAllSinistres().stream()
+                .sorted(Comparator.comparingDouble(Sinistre::getCout).reversed())
+                .collect(Collectors.toList());
+    }
+    public List<Sinistre> showSinistreByClientId(int clientId) {
+        return showAllSinistres().stream()
+                .filter(s -> s.getContrat() != null
+                        && s.getContrat().getClient() != null
+                        && s.getContrat().getClient().getId() == clientId)
+                .collect(Collectors.toList());
+    }
+    public List<Sinistre> showSinistreAvantDateDonner(LocalDate date) {
+        return showAllSinistres().stream()
+                .filter(s -> s.getDate().isBefore(date))
+                .collect(Collectors.toList());
+    }
+
+    public List<Sinistre> afficherSinistreParCoutSuperieurMontant(double montant) {
+        return showAllSinistres().stream()
+                .filter(s -> s.getCout() > montant)
+                .collect(Collectors.toList());
+    }
 
 }
