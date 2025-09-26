@@ -23,14 +23,18 @@ public class SinistreService {
        return sinistreDAO.deleteSinistre(id);
    };
 
-    public double calculCoutsTotauxByClientId(int client_id){
+    public double calculCoutsTotauxByClientId(int client_id) {
+        List<Sinistre> sinistres = sinistreDAO.showAllSinistres();
+
         return sinistreDAO.showAllSinistres().stream()
                 .filter(s -> s.getContrat() != null
                         && s.getContrat().getClient() != null
                         && s.getContrat().getClient().getId() == client_id)
+                .distinct() // يشيل duplications (خاص Sinistre يعرف equals/hashCode)
                 .mapToDouble(Sinistre::getCout)
                 .sum();
     }
+
 
 
     public Optional<Sinistre> findSinistreById(int id) {

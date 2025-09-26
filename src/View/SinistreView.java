@@ -142,6 +142,7 @@ public class SinistreView {
 
         System.out.println(" Sinistre ajouté avec succès !");
     }
+
     private void deleteSinistre() {
         System.out.print("Entrez l'ID du sinistre à supprimer : ");
         int id = scanner.nextInt();
@@ -188,6 +189,7 @@ public class SinistreView {
         List<Sinistre> sinistres = sinistreService.showSinistreByClientId(clientId);
         sinistres.forEach(System.out::println);
     }
+
     private void showSinistresByMontantDesc() {
         List<Sinistre> sinistres = sinistreService.showSinistreTreeByMontant();
         sinistres.forEach(System.out::println);
@@ -213,6 +215,7 @@ public class SinistreView {
         List<Sinistre> sinistres = sinistreService.afficherSinistreParCoutSuperieurMontant(montant);
         sinistres.forEach(System.out::println);
     }
+
     private void calculerCoutTotalClient() {
         System.out.println("Entrez l’ID du client : ");
         int clientId = scanner.nextInt();
