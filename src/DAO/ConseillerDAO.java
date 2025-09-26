@@ -100,12 +100,16 @@ public class ConseillerDAO {
 
             try(ResultSet res = prs.executeQuery()){
                 while(res.next()){
+                    int idConseiller = res.getInt("conseiller_id");
+                    Conseiller conseiller = new Conseiller(idConseiller,null,null,null);
+                    conseiller.setId(idConseiller);
+
                     Client client = new Client(
                             res.getInt("id"),
                             res.getString("nom"),
                             res.getString("prenom"),
                             res.getString(  "email"),
-                            null
+                            conseiller
                     );
                     clients.add(client);
                 }
@@ -115,9 +119,12 @@ public class ConseillerDAO {
         }
 
         List<Client> clientFiltre = clients.stream()
-                .filter(c -> c.getConseiller() != null && c.getConseiller().getId() == conseiller_id )
+                .filter(c -> c.getConseiller() != null && c.getConseiller().getId() == conseiller_id)
                 .collect(Collectors.toList());
-        clientFiltre.forEach(c-> System.out.println(c.getNom() + " " + c.getPrenom() + " "+c.getEmail()));
+
+        clientFiltre.forEach(c ->
+                System.out.println(c.getNom() + " " + c.getPrenom() + " " + c.getEmail())
+        );
 
         return clientFiltre;
     }

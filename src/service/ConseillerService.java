@@ -43,7 +43,7 @@ public class ConseillerService {
     public List<Client> findClientConseilleById(int conseiller_id) {
         List<Client> clients=conseillerDAO.findClientConseilleById(conseiller_id);
         clients.stream()
-                .map(c-> c.getNom() + " " + c.getPrenom() + " " + c.getEmail())
+                .map(c-> "- " + c.getNom() + " " + c.getPrenom() + " " + c.getEmail())
                 .forEach(System.out::println);
 
         return clients;
