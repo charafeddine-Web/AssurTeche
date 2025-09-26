@@ -71,7 +71,6 @@ public class ClientDAO {
         return Optional.empty();
     };
 
-
     public List<Client> ShowListClientParConseiller(int conseillerId) {
         return showAllClient().values().stream()
                 .filter(c -> c.getConseiller() != null && c.getConseiller().getId() == conseillerId)

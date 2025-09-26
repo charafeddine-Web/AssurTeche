@@ -1,7 +1,4 @@
 import View.UI;
-import  resources.DBConfig;
-import java.util.*;
-import java.sql.Connection;
 
 
 public class Main {

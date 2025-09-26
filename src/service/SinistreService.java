@@ -30,7 +30,7 @@ public class SinistreService {
                 .filter(s -> s.getContrat() != null
                         && s.getContrat().getClient() != null
                         && s.getContrat().getClient().getId() == client_id)
-                .distinct() // يشيل duplications (خاص Sinistre يعرف equals/hashCode)
+                .distinct()
                 .mapToDouble(Sinistre::getCout)
                 .sum();
     }
