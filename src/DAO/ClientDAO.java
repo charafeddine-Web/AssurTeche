@@ -83,12 +83,15 @@ public class ClientDAO {
         String sql="SELECT * FROM Client ";
         try(PreparedStatement ps=conn.prepareStatement(sql);ResultSet rs= ps.executeQuery();){
             while(rs.next()){
+                int idConseiller = rs.getInt("conseiller_id");
+                Conseiller conseiller = new Conseiller(idConseiller,null,null,null);
+                conseiller.setId(idConseiller);
                 Client client =  new Client(
                         rs.getInt("id"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
-                        null
+                        conseiller
                 );
                 clientMap.put(client.getId(),client);
             }

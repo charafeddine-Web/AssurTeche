@@ -27,12 +27,7 @@ public class ClientService {
         return clientDAO.findClientById(id);
     };
     public List<Client> showListClientByConseiller(int conseiller_id){
-        List<Client> clients= clientDAO.ShowListClientParConseiller(conseiller_id);
-
-        clients.stream()
-                .map(c-> c.getNom() +" "+ c.getPrenom())
-                .forEach(System.out::println);
-        return clients;
+        return clientDAO.ShowListClientParConseiller(conseiller_id);
     }
     public List<Client> findClientsByNomPrenom(String nomRecherche) {
     return showAllClient().values().stream()
