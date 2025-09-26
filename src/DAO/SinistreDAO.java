@@ -11,6 +11,7 @@ import  java.util.*;
 import java.util.stream.Collectors;
 
 import model.Sinistre;
+import service.ContratService;
 
 public class SinistreDAO {
 
@@ -70,9 +71,11 @@ public class SinistreDAO {
                 sinistre.setCout(rs.getDouble("cout"));
                 sinistre.setDescription(rs.getString("description"));
 
-                Contrat contrat = new Contrat();
-                contrat.setId(rs.getInt("contrat_id"));
+                int contratId = rs.getInt("contrat_id");
+                Contrat contrat = new ContratService().showContratById(contratId).orElse(null);
                 sinistre.setContrat(contrat);
+                sinistres.add(sinistre);
+
 
                 sinistres.add(sinistre);
             }
@@ -82,8 +85,6 @@ public class SinistreDAO {
         }
         return sinistres;
     }
-
-
 
     public Optional<Sinistre> findSinistreById(int id) {
         return showAllSinistres().stream()
