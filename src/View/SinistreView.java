@@ -180,6 +180,7 @@ public class SinistreView {
         List<Sinistre> sinistres = sinistreService.showSinistresByContratId(contratId);
         sinistres.forEach(System.out::println);
     }
+
     private void showSinistresByClient() {
         System.out.print("Entrez l'ID du client : ");
         int clientId = scanner.nextInt();

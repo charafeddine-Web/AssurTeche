@@ -42,6 +42,7 @@ public class SinistreDAO {
             e.printStackTrace();
         }
     }
+
     public boolean deleteSinistre(int id){
         String sql= "DELETE FROM Sinistre WHERE id = ?";
         try(PreparedStatement ps=conn.prepareStatement(sql)){

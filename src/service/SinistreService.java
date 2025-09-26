@@ -25,10 +25,13 @@ public class SinistreService {
 
     public double calculCoutsTotauxByClientId(int client_id){
         return sinistreDAO.showAllSinistres().stream()
-                .filter(s-> s.getContrat() != null && s.getContrat().getClient() != null && s.getContrat().getClient().getId() == client_id)
+                .filter(s -> s.getContrat() != null
+                        && s.getContrat().getClient() != null
+                        && s.getContrat().getClient().getId() == client_id)
                 .mapToDouble(Sinistre::getCout)
                 .sum();
-    };
+    }
+
 
     public Optional<Sinistre> findSinistreById(int id) {
         return sinistreDAO.findSinistreById(id);
