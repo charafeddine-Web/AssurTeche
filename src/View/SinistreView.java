@@ -35,39 +35,49 @@ public class SinistreView {
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
 
-            choix =scanner.nextInt();
-            scanner.nextLine();
+            try {
+                choix = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (choix){
-                case 1:
-                    addSinistre();
-                    break;
-                case 2:
-                    deleteSinistre();
-                    break;
-                case 3:
-                    findSinistreById();
-                    break;
-                case 4:
-                    showSinistresByContrat();
-                    break;
-                case 5:
-                    showSinistresByClient();
-                    break;
-                case 6:
-                    showSinistresByMontantDesc();
-                    break;
-                case 7:
-                    showSinistresAvantDate();
-                    break;
-                case 8:
-                    showSinistresSuperieurMontant();
-                    break;
-                case 9:
-                    calculerCoutTotalClient();
-                    break;
-                case 0 : System.out.println("Au revoir");break;
-                default : System.out.println("Option invalide !");break;
+                switch (choix) {
+                    case 1:
+                        addSinistre();
+                        break;
+                    case 2:
+                        deleteSinistre();
+                        break;
+                    case 3:
+                        findSinistreById();
+                        break;
+                    case 4:
+                        showSinistresByContrat();
+                        break;
+                    case 5:
+                        showSinistresByClient();
+                        break;
+                    case 6:
+                        showSinistresByMontantDesc();
+                        break;
+                    case 7:
+                        showSinistresAvantDate();
+                        break;
+                    case 8:
+                        showSinistresSuperieurMontant();
+                        break;
+                    case 9:
+                        calculerCoutTotalClient();
+                        break;
+                    case 0:
+                        System.out.println("Au revoir");
+                        break;
+                    default:
+                        System.out.println("Option invalide !");
+                        break;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Erreur: veuillez entrer un nombre valide !");
+                scanner.nextLine();
+                choix = -1;
             }
         }while (choix !=0);
     }

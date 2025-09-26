@@ -4,6 +4,7 @@ import model.Client;
 import model.Conseiller;
 import service.ConseillerService;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -30,31 +31,36 @@ public class ConseillerView {
             System.out.println("6 - Return Au Menu Prancipal ");
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
+            try{
+                choix =scanner.nextInt();
+                scanner.nextLine();
 
-            choix =scanner.nextInt();
+                switch (choix){
+                    case 1:
+                        addConseiller();
+                        break;
+                    case 2:
+                        showClientDunConseiller();
+                        break;
+                    case 3:
+                        showConseillerById();
+                        break;
+                    case 4:
+                        deleteConseiller();
+                        break;
+                    case 5:
+                        showAllConseiller();
+                        break;
+                    case 6:
+                        return;
+                    case 0 : System.out.println("Au revoir");break;
+                    default : System.out.println("Option invalide !");break;
+                }
+            }catch (InputMismatchException e){
+            System.out.println("Erreur: veuillez entrer un nombre valide !");
             scanner.nextLine();
-
-            switch (choix){
-                case 1:
-                    addConseiller();
-                    break;
-                case 2:
-                    showClientDunConseiller();
-                    break;
-                case 3:
-                    showConseillerById();
-                    break;
-                case 4:
-                    deleteConseiller();
-                    break;
-                case 5:
-                    showAllConseiller();
-                    break;
-                case 6:
-                    return;
-                case 0 : System.out.println("Au revoir");break;
-                default : System.out.println("Option invalide !");break;
-            }
+            choix = -1;
+        }
         }while (choix !=0);
     }
 

@@ -31,27 +31,36 @@ public class ContratView {
             System.out.println("5 - Return Au Menu Prancipal ");
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
+            try {
+                choix = scanner.nextInt();
+                scanner.nextLine();
 
-            choix =scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choix){
-                case 1:
-                    addContrat();
-                    break;
-                case 2:
-                    findContratById();
-                    break;
-                case 3:
-                    findContratByIdClient();
-                    break;
-                case 4:
-                    deleteContrat();
-                    break;
-                case 5:
-                    return;
-                case 0 : System.out.println("Au revoir");break;
-                default : System.out.println("Option invalide !");break;
+                switch (choix) {
+                    case 1:
+                        addContrat();
+                        break;
+                    case 2:
+                        findContratById();
+                        break;
+                    case 3:
+                        findContratByIdClient();
+                        break;
+                    case 4:
+                        deleteContrat();
+                        break;
+                    case 5:
+                        return;
+                    case 0:
+                        System.out.println("Au revoir");
+                        break;
+                    default:
+                        System.out.println("Option invalide !");
+                        break;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Erreur: veuillez entrer un nombre valide !");
+                scanner.nextLine();
+                choix = -1;
             }
         }while (choix !=0);
     }

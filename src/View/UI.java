@@ -1,5 +1,6 @@
 package View;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import View.*;
 
@@ -25,28 +26,34 @@ public class UI {
             System.out.println("0 - Quitter");
             System.out.print("Choisissez une option : ");
 
-            choix = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                choix = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (choix) {
-                case 1:
-                    conseiller.menu();
-                    break;
-                case 2:
-                    client.menu();
-                    break;
-                case 3:
-                    contrat.menu();
-                    break;
-                case 4:
-                    sinistre.menu();
-                    break;
-                case 0:
-                    System.out.println("Au revoir ");
-                    break;
-                default:
-                    System.out.println("Option invalide !");
-                    break;
+                switch (choix) {
+                    case 1:
+                        conseiller.menu();
+                        break;
+                    case 2:
+                        client.menu();
+                        break;
+                    case 3:
+                        contrat.menu();
+                        break;
+                    case 4:
+                        sinistre.menu();
+                        break;
+                    case 0:
+                        System.out.println("Au revoir ");
+                        break;
+                    default:
+                        System.out.println("Option invalide !");
+                        break;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Erreur: veuillez entrer un nombre valide !");
+                scanner.nextLine();
+                choix = -1;
             }
         } while (choix != 0);
 
